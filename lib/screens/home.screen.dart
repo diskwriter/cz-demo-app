@@ -1,7 +1,5 @@
-import 'package:cz/config/app_config.dart';
-import 'package:cz/config/app_theme_provider.dart';
 import 'package:cz/services/random_data_provider.dart';
-import 'package:cz/widgets/core_widgets.dart';
+import 'package:cz/widgets/vertical_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -11,12 +9,8 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.of(context).primary.container.color,
-        title: Text(
-          AppConfig.of(context).appTitle,
-          style: TextStyle(
-            color: AppTheme.of(context).primary.onContainer.color,
-          ),
+        title: const Text(
+          'Universe',
         ),
       ),
       body: Center(
@@ -24,9 +18,9 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              AppConfig.of(context).graphTitle,
-              style: const TextStyle(
+            const Text(
+              'Evolution of the population',
+              style: TextStyle(
                 fontSize: 20,
               ),
             ),
@@ -34,27 +28,22 @@ class Home extends StatelessWidget {
               stream: RandomDataProvider.of(context).population(),
               builder: (BuildContext context, AsyncSnapshot<Population> populationSnapshot) {
                 if (!populationSnapshot.hasData) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
                     child: Text(
-                      AppConfig.of(context).loadingLabel,
+                      'Loading...',
                     ),
                   );
                 }
                 return Column(
                   children: [
-                    CoreWidgets.of(context).graphWidget.widget(
-                          context,
-                          GraphWidgetParams(
-                            population: populationSnapshot.data!,
-                          ),
-                        ),
+                    VerticalBarWidget(population: populationSnapshot.data!),
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(AppTheme.of(context).secondary.key.color),
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: AppTheme.of(context).radius,
+                            borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                       ),
@@ -76,7 +65,7 @@ class Home extends StatelessWidget {
                               );
                             });
                       },
-                      child: Text(AppConfig.of(context).buttonLabel),
+                      child: const Text('View stats'),
                     )
                   ],
                 );

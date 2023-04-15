@@ -1,17 +1,14 @@
-import 'package:cz/config/app_theme_provider.dart';
 import 'package:cz/services/random_data_provider.dart';
-import 'package:cz/widgets/app_widget.dart';
-import 'package:cz/widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 
 class VerticalBarWidget extends StatelessWidget {
-  static AppWidget<GraphWidgetParams> appWidget() => AppWidget<GraphWidgetParams>(
-        appWidgetBuilder: (BuildContext context, GraphWidgetParams params) => VerticalBarWidget(
-          population: params.population,
-        ),
-      );
-
   final Population population;
+  final List<Color> barColors = const [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+  ];
 
   const VerticalBarWidget({
     super.key,
@@ -35,7 +32,7 @@ class VerticalBarWidget extends StatelessWidget {
                 duration: const Duration(milliseconds: 500),
                 width: width / population.values.length,
                 height: 200 * (entry.value / 100),
-                decoration: AppTheme.of(context).barColors.values[entry.key],
+                color: barColors[entry.key],
               ),
             )
             .toList(),
